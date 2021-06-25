@@ -21,8 +21,8 @@ import (
 	"sync"
 	"testing"
 
+	spokeClusterV1 "github.com/clusternet/clusternet/pkg/apis/clusters/v1beta1"
 	"github.com/onsi/gomega"
-	spokeClusterV1 "github.com/open-cluster-management/api/cluster/v1"
 	"k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/rest"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"

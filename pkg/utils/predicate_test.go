@@ -3,8 +3,8 @@ package utils
 import (
 	"testing"
 
+	spokeClusterV1 "github.com/clusternet/clusternet/pkg/apis/clusters/v1beta1"
 	"github.com/onsi/gomega"
-	spokeClusterV1 "github.com/open-cluster-management/api/cluster/v1"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/event"
@@ -34,9 +34,9 @@ var (
 				"key2": "c1v2",
 			},
 		},
-		Status: spokeClusterV1.ManagedClusterStatus{
-			Conditions: []metav1.Condition{oldClusterCond1, oldClusterCond2},
-		},
+		// Status: spokeClusterV1.ManagedClusterStatus{
+		// 	Conditions: []metav1.Condition{oldClusterCond1, oldClusterCond2},
+		// },
 	}
 
 	newClusterCond = metav1.Condition{
@@ -57,9 +57,9 @@ var (
 				"key2": "c1v2",
 			},
 		},
-		Status: spokeClusterV1.ManagedClusterStatus{
-			Conditions: []metav1.Condition{newClusterCond},
-		},
+		// Status: spokeClusterV1.ManagedClusterStatus{
+		// 	Conditions: []metav1.Condition{newClusterCond},
+		// },
 	}
 
 	oldSecret = &v1.Secret{

@@ -21,8 +21,8 @@ import (
 	"sync"
 	"testing"
 
+	spokeClusterV1 "github.com/clusternet/clusternet/pkg/apis/clusters/v1beta1"
 	"github.com/onsi/gomega"
-	spokeClusterV1 "github.com/open-cluster-management/api/cluster/v1"
 	clusterv1alpha1 "github.com/open-cluster-management/api/cluster/v1alpha1"
 	endpointapis "github.com/open-cluster-management/klusterlet-addon-controller/pkg/apis"
 	gitopsclusterV1alpha1 "github.com/open-cluster-management/multicloud-operators-placementrule/pkg/apis/apps/v1alpha1"

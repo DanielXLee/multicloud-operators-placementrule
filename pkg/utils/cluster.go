@@ -22,10 +22,9 @@ import (
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/klog"
 
-	spokeClusterV1 "github.com/open-cluster-management/api/cluster/v1"
+	spokeClusterV1 "github.com/clusternet/clusternet/pkg/apis/clusters/v1beta1"
 	clusterv1alpha1 "github.com/open-cluster-management/api/cluster/v1alpha1"
 	gitopsclusterV1alpha1 "github.com/open-cluster-management/multicloud-operators-placementrule/pkg/apis/apps/v1alpha1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/event"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 )
@@ -54,21 +53,21 @@ var ClusterPredicateFunc = predicate.Funcs{
 			return true
 		}
 
-		oldcondMap := make(map[string]metav1.ConditionStatus)
-		for _, cond := range oldcl.Status.Conditions {
-			oldcondMap[cond.Type] = cond.Status
-		}
-		for _, cond := range newcl.Status.Conditions {
-			oldcondst, ok := oldcondMap[cond.Type]
-			if !ok || oldcondst != cond.Status {
-				return true
-			}
-			delete(oldcondMap, cond.Type)
-		}
+		// oldcondMap := make(map[string]metav1.ConditionStatus)
+		// for _, cond := range oldcl.Status.Conditions {
+		// 	oldcondMap[cond.Type] = cond.Status
+		// }
+		// for _, cond := range newcl.Status.Conditions {
+		// 	oldcondst, ok := oldcondMap[cond.Type]
+		// 	if !ok || oldcondst != cond.Status {
+		// 		return true
+		// 	}
+		// 	delete(oldcondMap, cond.Type)
+		// }
 
-		if len(oldcondMap) > 0 {
-			return true
-		}
+		// if len(oldcondMap) > 0 {
+		// 	return true
+		// }
 
 		klog.V(1).Info("Out Cluster Predicate Func ", oldcl.Name, " with false possitive")
 		return false

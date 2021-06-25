@@ -20,7 +20,7 @@ import (
 
 	"k8s.io/klog"
 
-	spokeClusterV1 "github.com/open-cluster-management/api/cluster/v1"
+	spokeClusterV1 "github.com/clusternet/clusternet/pkg/apis/clusters/v1beta1"
 	appv1alpha1 "github.com/open-cluster-management/multicloud-operators-placementrule/pkg/apis/apps/v1"
 	"github.com/open-cluster-management/multicloud-operators-placementrule/pkg/utils"
 	rbacv1 "k8s.io/api/authorization/v1"
@@ -35,11 +35,11 @@ func (r *ReconcilePlacementRule) hubReconcile(instance *appv1alpha1.PlacementRul
 		return err
 	}
 
-	err = r.filteClustersByStatus(instance, clmap /* , clstatusmap */)
-	if err != nil {
-		klog.Error("Error in filtering clusters by status:", err)
-		return err
-	}
+	// err = r.filteClustersByStatus(instance, clmap /* , clstatusmap */)
+	// if err != nil {
+	// 	klog.Error("Error in filtering clusters by status:", err)
+	// 	return err
+	// }
 
 	err = r.filteClustersByUser(instance, clmap)
 	if err != nil {
@@ -64,38 +64,38 @@ func (r *ReconcilePlacementRule) hubReconcile(instance *appv1alpha1.PlacementRul
 	return nil
 }
 
-func (r *ReconcilePlacementRule) filteClustersByStatus(instance *appv1alpha1.PlacementRule, clmap map[string]*spokeClusterV1.ManagedCluster) error {
-	if instance == nil || instance.Spec.ClusterConditions == nil || clmap == nil {
-		return nil
-	}
+// func (r *ReconcilePlacementRule) filteClustersByStatus(instance *appv1alpha1.PlacementRule, clmap map[string]*spokeClusterV1.ManagedCluster) error {
+// 	if instance == nil || instance.Spec.ClusterConditions == nil || clmap == nil {
+// 		return nil
+// 	}
 
-	// store all cluster condition defined in the placementrule instance to map[type]status
-	placementClusterCondMap := make(map[string]string)
-	for _, cond := range instance.Spec.ClusterConditions {
-		placementClusterCondMap[cond.Type] = string(cond.Status)
-	}
+// 	// store all cluster condition defined in the placementrule instance to map[type]status
+// 	placementClusterCondMap := make(map[string]string)
+// 	for _, cond := range instance.Spec.ClusterConditions {
+// 		placementClusterCondMap[cond.Type] = string(cond.Status)
+// 	}
 
-	for k, cl := range clmap {
-		condMatched := true
+// 	for k, cl := range clmap {
+// 		condMatched := true
 
-		for _, clCond := range cl.Status.Conditions {
-			if placementClusterStatus, ok := placementClusterCondMap[clCond.Type]; ok {
-				if placementClusterStatus != string(clCond.Status) {
-					condMatched = false
-					break
-				}
-			}
-		}
+// 		for _, clCond := range cl.Status.Conditions {
+// 			if placementClusterStatus, ok := placementClusterCondMap[clCond.Type]; ok {
+// 				if placementClusterStatus != string(clCond.Status) {
+// 					condMatched = false
+// 					break
+// 				}
+// 			}
+// 		}
 
-		if !condMatched {
-			delete(clmap, k)
-		}
-	}
+// 		if !condMatched {
+// 			delete(clmap, k)
+// 		}
+// 	}
 
-	klog.Infof("Cluster Conditions Check done, placementrule: %v/%v ", instance.Namespace, instance.Name)
+// 	klog.Infof("Cluster Conditions Check done, placementrule: %v/%v ", instance.Namespace, instance.Name)
 
-	return nil
-}
+// 	return nil
+// }
 
 type clusterInfo struct {
 	Name      string
@@ -154,14 +154,14 @@ func (r *ReconcilePlacementRule) sortClustersByResourceHint(instance *appv1alpha
 			Namespace: cl.Name,
 		}
 
-		if instance.Spec.ResourceHint.Type != "" && cl.Status.Allocatable != nil {
-			switch instance.Spec.ResourceHint.Type {
-			case appv1alpha1.ResourceTypeCPU:
-				newcli.Metrics = cl.Status.Allocatable[spokeClusterV1.ResourceCPU]
-			case appv1alpha1.ResourceTypeMemory:
-				newcli.Metrics = cl.Status.Allocatable[spokeClusterV1.ResourceMemory]
-			}
-		}
+		// if instance.Spec.ResourceHint.Type != "" && cl.Status.Allocatable != nil {
+		// 	switch instance.Spec.ResourceHint.Type {
+		// 	case appv1alpha1.ResourceTypeCPU:
+		// 		newcli.Metrics = cl.Status.Allocatable[spokeClusterV1.ResourceCPU]
+		// 	case appv1alpha1.ResourceTypeMemory:
+		// 		newcli.Metrics = cl.Status.Allocatable[spokeClusterV1.ResourceMemory]
+		// 	}
+		// }
 
 		sortedcls.Clusters = append(sortedcls.Clusters, newcli)
 	}
