@@ -22,7 +22,8 @@ jobs:
 
     - name: Building binary
       run: |
-        make build
+        go build -a -o build/_output/bin/multicluster-operators-placementrule ./cmd/manager
+        go build -a -o build/_output/bin/gitopscluster ./cmd/gitopscluster
 
     - name: Set up QEMU
       if: github.event_name != 'pull_request'
