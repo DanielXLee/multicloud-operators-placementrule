@@ -18,10 +18,9 @@ import (
 	"testing"
 	"time"
 
+	spokeClusterV1 "github.com/clusternet/clusternet/pkg/apis/clusters/v1beta1"
 	"github.com/onsi/gomega"
-	spokeClusterV1 "github.com/open-cluster-management/api/cluster/v1"
 	"golang.org/x/net/context"
-	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -264,12 +263,12 @@ func TestAllClusters(t *testing.T) {
 	err = c.Get(context.TODO(), cAlphaKey, cAlpha)
 	g.Expect(err).NotTo(gomega.HaveOccurred())
 
-	cAlpha.Status = spokeClusterV1.ManagedClusterStatus{Conditions: []metav1.Condition{},
-		Allocatable: spokeClusterV1.ResourceList{
-			spokeClusterV1.ResourceCPU: resource.MustParse("10500m"),
-		}}
-	err = c.Status().Update(context.TODO(), cAlpha)
-	g.Expect(err).NotTo(gomega.HaveOccurred())
+	// cAlpha.Status = spokeClusterV1.ManagedClusterStatus{Conditions: []metav1.Condition{},
+	// 	Allocatable: spokeClusterV1.ResourceList{
+	// 		spokeClusterV1.ResourceCPU: resource.MustParse("10500m"),
+	// 	}}
+	// err = c.Status().Update(context.TODO(), cAlpha)
+	// g.Expect(err).NotTo(gomega.HaveOccurred())
 
 	cBetaKey := types.NamespacedName{
 		Name: "clusterbeta",
@@ -278,12 +277,12 @@ func TestAllClusters(t *testing.T) {
 	err = c.Get(context.TODO(), cBetaKey, cBeta)
 	g.Expect(err).NotTo(gomega.HaveOccurred())
 
-	cBeta.Status = spokeClusterV1.ManagedClusterStatus{Conditions: []metav1.Condition{},
-		Allocatable: spokeClusterV1.ResourceList{
-			spokeClusterV1.ResourceCPU: resource.MustParse("8"),
-		}}
-	err = c.Status().Update(context.TODO(), cBeta)
-	g.Expect(err).NotTo(gomega.HaveOccurred())
+	// cBeta.Status = spokeClusterV1.ManagedClusterStatus{Conditions: []metav1.Condition{},
+	// 	Allocatable: spokeClusterV1.ResourceList{
+	// 		spokeClusterV1.ResourceCPU: resource.MustParse("8"),
+	// 	}}
+	// err = c.Status().Update(context.TODO(), cBeta)
+	// g.Expect(err).NotTo(gomega.HaveOccurred())
 
 	instance := &appv1alpha1.PlacementRule{
 		ObjectMeta: metav1.ObjectMeta{
